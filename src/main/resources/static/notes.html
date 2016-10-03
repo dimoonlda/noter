@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Noter::notes</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/logo-nav.css" rel="stylesheet">
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="css/bootstrap-table.min.css">
+    <style>
+        .w70 {width: 70px !important;}
+    </style>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">
+                    <img src="http://placehold.it/150x50&text=Logo" alt="">
+                </a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="about.html">About</a>
+                    </li>
+                    <li class="active">
+                        <a href="#">Notes</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+    <!-- Page Content -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2>Notes</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="toolbar">
+                    <div class="form-inline" role="form">
+                        <div class="form-group">
+                            <span>Offset: </span>
+                            <input name="offset" class="form-control w70" type="number" value="0">
+                        </div>
+                        <div class="form-group">
+                            <span>Limit: </span>
+                            <input name="limit" class="form-control w70" type="number" value="5">
+                        </div>
+                        <div class="form-group">
+                            <input name="search" class="form-control" type="text" placeholder="Search">
+                        </div>
+                        <button id="ok" type="submit" class="btn btn-default">OK</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <table id="notesTable"
+                       data-toggle="table"
+                       data-height="460"
+                       data-toolbar="#toolbar"
+                       data-show-refresh="true"
+                       data-show-toggle="true"
+                       data-show-columns="true"
+                       data-query-params="queryParams"
+                       >
+                    <thead>
+                    <tr>
+                        <th data-field="id" class="col-sm-2 col-md-1">Id</th>
+                        <th data-field="name" class="col-sm-10 col-md-11">Title</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="js/bootstrap-table.min.js"></script>
+    <script src="js/services/notesServices.js"></script>
+
+    <script>
+        var $notesTable = $('#notesTable');
+        $ok = $('#ok');
+
+        $(function () {
+            $.getJSON('data1.json', function(data) {
+                alert(data);
+            });
+            $ok.click(function () {
+                $notesTable.bootstrapTable('refresh');
+            });
+        });
+
+/*
+        $(function () {
+            var data = getNotes();
+            $notesTable.bootstrapTable({data: data});
+        });
+*/
+
+        function queryParams() {
+            var params = {};
+            $('#toolbar').find('input[name]').each(function () {
+                params[$(this).attr('name')] = $(this).val();
+            });
+            return params;
+        }
+
+        /*function responseHandler(res) {
+            var data = getNotes();
+            return data;
+        }*/
+    </script>
+</body>
+
+</html>
