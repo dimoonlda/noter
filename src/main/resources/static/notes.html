@@ -18,6 +18,7 @@
     <link href="css/logo-nav.css" rel="stylesheet">
 
     <link rel="stylesheet" type="text/css" href="css/datatables.css"/>
+
     <style>
         .w70 {width: 70px !important;}
     </style>
@@ -43,9 +44,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
+<!--
                 <a class="navbar-brand" href="#">
                     <img src="http://placehold.it/150x50&text=Logo" alt="">
                 </a>
+-->
             </div>
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -70,7 +73,20 @@
                     <h4 class="modal-title" id="noteModalLabel">Modal title</h4>
                 </div>
                 <div class="modal-body">
-                    ...
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="noteTitle" class="col-sm-2 control-label">Title</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="noteTitle" placeholder="Title">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="noteContext" class="col-sm-2 control-label">Article text</label>
+                            <div class="col-sm-10">
+                                <textarea class="form-control" id="noteContext" placeholder="Article text" rows="20"></textarea>
+                            </div>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -87,18 +103,20 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-12">
+            <div class="table-responsive">
                 <table id="notesTable" class="table table-hover table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th class="col-sm-2 col-md-1">Id</th>
-                        <th class="col-sm-10 col-md-11">Title</th>
+                        <th class="col-xs-1 col-sm-1 col-md-1">Id</th>
+                        <th class="col-xs-10 col-sm-10 col-md-10">Title</th>
+                        <th class="col-xs-1 col-sm-1 col-md-1">Action</th>
                     </tr>
                     </thead>
                     <tfoot>
                     <tr>
-                        <th class="col-sm-2 col-md-1">Id</th>
-                        <th class="col-sm-10 col-md-11">Title</th>
+                        <th class="col-xs-1 col-sm-1 col-md-1">Id</th>
+                        <th class="col-xs-10 col-sm-10 col-md-10">Title</th>
+                        <th class="col-xs-1 col-sm-1 col-md-1">Action</th>
                     </tr>
                     </tfoot>
                 </table>
@@ -119,14 +137,54 @@
     <script>
         $(document).ready(function() {
             var notes = getNotes();
-            $('#notesTable').DataTable( {
+            var notesTable = $('#notesTable').DataTable( {
                 //"ajax": "notes.json",
                 "data": notes,
+                "paging": false,
                 "columns": [
                     { "data": "id" },
-                    { "data": "title" }
+                    { "data": "title" },
+                    { "data": "id" }
+                ],
+                "columnDefs": [
+                    {
+                        "render": function ( data, type, row ) {
+                            return '<a class="modal-toggle" data-toggle="modal" data-id="'
+                                    + row.id + '" data-target="#noteModal">' + row.title + '</a>';
+                        },
+                        "targets": 1
+                    },
+                    {
+                        "render": function ( data, type, row ) {
+                            return '<button class="btn btn-danger" data-id="'
+                                    + row.id + '" data-target="#noteModal" title="Delete">Delete</button>';
+                        },
+                        "targets": 2
+                    }
+                ],
+                dom: 'Bfrtip',
+                buttons: [
+                    {
+                        text: 'Add'
+                    }
                 ]
             } );
+            notesTable.buttons().container()
+                    .appendTo( '#notesTable .col-md-6:eq(0)' );
+            $('.modal-toggle').on('click', function(){
+                var noteModal = $('#noteModal');
+                var noteId = $(this).data('id');
+                var note = getNoteById(noteId);
+                console.log('Show: %s', note.id);
+                noteModal.find('#noteTitle').val(note.title);
+                noteModal.find('#noteContext').val(note.context);
+                noteModal.find('#noteModalLabel').text('#' + note.id + ' ' + note.title)
+            });
+            $('.btn.btn-danger').on('click', function(){
+                var noteId = $(this).data('id');
+                var note = getNoteById(noteId);
+                console.log('Delete: %s', note.id);
+            });
         } );
     </script>
 </body>

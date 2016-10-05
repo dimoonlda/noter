@@ -74,7 +74,7 @@ function getNotes() {
 function getNoteById(id) {
     console.log("getNoteById with params: id = " + id);
     return {
-        "id": 20,
+        "id": id,
         "title": "With list groups",
         "context": "Some default panel content here. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit."
     }
