@@ -3,7 +3,7 @@
  */
 function getNotes() {
     console.log("get notes.");
-    var data = [
+    /*var data = [
         { "id" : 0,
             "title" : "Item 0"
         },
@@ -67,7 +67,14 @@ function getNotes() {
         { "id" : 20,
             "title" : "Item 20"
         }
-    ];
+    ];*/
+    var data = null;
+    $.ajax({
+        type: "GET",
+        url: "/notes"
+    }).done(function( msg ) {
+        alert( "Data: " + msg );
+    });
     return data;
 }
 
@@ -78,4 +85,10 @@ function getNoteById(id) {
         "title": "With list groups",
         "context": "Some default panel content here. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit."
     }
+}
+
+function saveNote(note){
+    console.log("saveNote with param: ", note);
+    note.id = 21;
+    return note;
 }

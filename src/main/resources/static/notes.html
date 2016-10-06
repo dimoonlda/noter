@@ -90,7 +90,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" id="btnSaveNote">Save changes</button>
                 </div>
             </div>
         </div>
@@ -100,6 +100,12 @@
         <div class="row">
             <div class="col-md-12">
                 <h2>Notes</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <button id="btnAddNote" title="Add note" class="btn btn-default modal-toggle"
+                        data-toggle="modal" data-target="#noteModal">Add note</button>
             </div>
         </div>
         <div class="row">
@@ -161,16 +167,8 @@
                         },
                         "targets": 2
                     }
-                ],
-                dom: 'Bfrtip',
-                buttons: [
-                    {
-                        text: 'Add'
-                    }
                 ]
             } );
-            notesTable.buttons().container()
-                    .appendTo( '#notesTable .col-md-6:eq(0)' );
             $('.modal-toggle').on('click', function(){
                 var noteModal = $('#noteModal');
                 var noteId = $(this).data('id');
@@ -178,13 +176,28 @@
                 console.log('Show: %s', note.id);
                 noteModal.find('#noteTitle').val(note.title);
                 noteModal.find('#noteContext').val(note.context);
-                noteModal.find('#noteModalLabel').text('#' + note.id + ' ' + note.title)
+                noteModal.find('#noteModalLabel').text('#' + note.id + ' ' + note.title);
             });
             $('.btn.btn-danger').on('click', function(){
                 var noteId = $(this).data('id');
                 var note = getNoteById(noteId);
                 console.log('Delete: %s', note.id);
             });
+            $('#btnAddNote').on('click', function(){
+                var noteModal = $('#noteModal');
+                noteModal.find('#noteTitle').val("");
+                noteModal.find('#noteContext').val("");
+                noteModal.find('#noteModalLabel').text('Add note');
+            });
+            $('#btnSaveNote').on('click', function () {
+                var noteModal = $('#noteModal');
+                var note = {};
+                note.title = noteModal.find('#noteTitle').val();
+                note.context = noteModal.find('#noteContext').val();
+                note = saveNote(note);
+                console.log("Saved note = ", note);
+                noteModal.modal('hide');
+            })
         } );
     </script>
 </body>

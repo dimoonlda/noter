@@ -1,10 +1,12 @@
-package ua.kiev.dimoon;
+package ua.kiev.dimoon.noter;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class NoterApplication {
+public class NoterApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(NoterApplication.class, args);
