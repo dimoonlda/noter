@@ -42,4 +42,11 @@ public class NotesServiceImpl implements NotesService {
         logger.debug("saveNote request with params = {}.", note);
         return notesRepository.save(note);
     }
+
+    @Override
+    public void deleteNoteById(Integer id) {
+        logger.debug("deleteNoteById request with id = {}.", id);
+        notesRepository.delete(id);
+    }
+
 }

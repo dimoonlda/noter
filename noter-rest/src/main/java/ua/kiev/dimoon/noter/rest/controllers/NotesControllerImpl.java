@@ -47,4 +47,11 @@ public class NotesControllerImpl implements NotesController {
         return new ResponseEntity<>(new BaseResponse<>(notesService.saveNote(note)),
                 HttpStatus.OK);
     }
+
+    @Override
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    public ResponseEntity<BaseResponse> deleteNoteById(@PathVariable Integer id) {
+        notesService.deleteNoteById(id);
+        return new ResponseEntity<>(new BaseResponse(null), HttpStatus.ACCEPTED);
+    }
 }

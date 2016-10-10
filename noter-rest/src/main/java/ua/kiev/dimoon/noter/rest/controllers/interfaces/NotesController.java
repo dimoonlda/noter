@@ -13,4 +13,5 @@ public interface NotesController {
     ResponseEntity<BaseResponse<List<Note>>> getNotes();
     ResponseEntity<BaseResponse<Note>> getNoteById(Integer id);
     ResponseEntity<BaseResponse<Note>> saveNote(Note note);
+    ResponseEntity<BaseResponse> deleteNoteById(Integer id);
 }
