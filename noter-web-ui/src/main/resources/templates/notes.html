@@ -104,8 +104,7 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-                <button id="btnAddNote" title="Add note" class="btn btn-default modal-toggle"
-                        data-toggle="modal" data-target="#noteModal">Add note</button>
+                <button id="btnAddNote" title="Add note" class="btn btn-default">Add note</button>
             </div>
         </div>
         <div class="row">
@@ -132,18 +131,15 @@
     <!-- /.container -->
 
     <!-- jQuery -->
-    <!--<script src="../static/js/jquery.js"></script>-->
     <script src="../static/js/jquery.js"
             th:src="@{/js/jquery.js}"></script>
     <!-- Bootstrap Core JavaScript -->
-    <!--<script src="../static/js/bootstrap.min.js"></script>-->
     <script src="../static/js/bootstrap.min.js"
             th:src="@{/js/bootstrap.min.js}"></script>
-
-    <!--<script type="text/javascript" src="../static/js/datatables.js"></script>-->
     <script src="../static/js/datatables.js"
             th:src="@{/js/datatables.js}"></script>
-    <!--<script src="../static/js/services/notesServices.js"></script>-->
+    <script src="../static/js/config/cfg.js"
+            th:src="@{/js/config/cfg.js}"></script>
     <script src="../static/js/services/notesServices.js"
             th:src="@{/js/services/notesServices.js}"></script>
 
@@ -188,7 +184,10 @@
                 });
                 $('.btn.btn-danger').on('click', function(){
                     var noteId = $(this).data('id');
-                    console.log('Delete: %s', noteId);
+                    deleteNoteById(noteId, function(){
+                        //TODO: refresh table
+                        console.log('Deleted note with id = : %s', noteId);
+                    });
                 });
             });
             $('#btnAddNote').on('click', function(){
@@ -196,15 +195,18 @@
                 noteModal.find('#noteTitle').val("");
                 noteModal.find('#noteContext').val("");
                 noteModal.find('#noteModalLabel').text('Add note');
+                noteModal.modal('show');
             });
             $('#btnSaveNote').on('click', function () {
                 var noteModal = $('#noteModal');
                 var note = {};
                 note.title = noteModal.find('#noteTitle').val();
                 note.context = noteModal.find('#noteContext').val();
-                note = saveNote(note);
-                console.log("Saved note = ", note);
-                noteModal.modal('hide');
+                saveNote(note, function(savedNote){
+                    //TODO: refresh table
+                    console.log("Saved note = ", savedNote);
+                    noteModal.modal('hide');
+                });
             })
         } );
     </script>

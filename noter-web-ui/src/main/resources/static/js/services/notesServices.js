@@ -6,7 +6,7 @@ function getNotes(completeCallBack) {
 
     $.ajax({
         type: "GET",
-        url: "http://127.0.0.1:8081/notes"
+        url: getConfig().apiUrl + "/notes"
     }).success(function(msg) {
         console.log("getNotes result: ", msg);
         completeCallBack(msg.data);
@@ -18,15 +18,36 @@ function getNoteById(id, completeCallBack) {
 
     $.ajax({
         type: "GET",
-        url: "http://127.0.0.1:8081/notes/" + id
+        url: getConfig().apiUrl + "/notes/" + id
     }).success(function(msg) {
         console.log("getNoteById result: ", msg);
         completeCallBack(msg.data);
     });
 }
 
-function saveNote(note){
+function deleteNoteById(id, completeCallBack) {
+    console.log("deleteNoteById request with params: id = " + id);
+
+    $.ajax({
+        type: "DELETE",
+        url: getConfig().apiUrl + "/notes/" + id
+    }).success(function(msg) {
+        console.log("deleteNoteById result: ", msg);
+        completeCallBack();
+    });
+}
+
+function saveNote(note, completeCallBack){
     console.log("saveNote with param: ", note);
-    note.id = 21;
-    return note;
+
+    $.ajax({
+        type: "POST",
+        url: getConfig().apiUrl + "/notes",
+        data: JSON.stringify(note),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json"
+    }).success(function(msg) {
+        console.log("saveNote result: ", msg.data);
+        completeCallBack(msg.data);
+    });
 }
