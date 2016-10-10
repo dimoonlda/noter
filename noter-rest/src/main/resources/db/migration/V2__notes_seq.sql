@@ -1,0 +1,5 @@
+CREATE SEQUENCE notes_id_seq
+INCREMENT BY 1
+CACHE 1;
+
+ALTER TABLE notes ALTER COLUMN id SET DEFAULT nextval('notes_id_seq');
