@@ -1,21 +1,32 @@
 package ua.kiev.dimoon.noter.rest.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 
 /**
  * Created by lutay.d on 06.10.2016.
  */
+@Entity(name = "NOTES")
 @JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class Note {
-    private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notes_id_gen")
+    @SequenceGenerator(name = "notes_id_gen", allocationSize = 1, sequenceName = "NOTES_ID_SEQ")
+    private Integer id;
+    @NotEmpty
+    @Size(max = 255)
     private String title;
+    @NotEmpty
     private String context;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public Note setId(Long id) {
+    public Note setId(Integer id) {
         this.id = id;
         return this;
     }
